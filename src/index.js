@@ -37,7 +37,10 @@ function handleKeyUp(event) {
 function moveLaserCannon(distance) {
   const laserCannon = document.querySelector('.laser-cannon');
   const currentLeft = parseInt(laserCannon.style.left || '50%', 10);
-  laserCannon.style.left = `${currentLeft + distance}px`;
+  const newLeft = currentLeft + distance;
+  if (newLeft >= 0 && newLeft <= gameContainer.clientWidth - laserCannon.clientWidth) {
+    laserCannon.style.left = `${newLeft}px`;
+  }
 }
 
 function shootLaser() {
