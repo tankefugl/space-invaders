@@ -11,6 +11,9 @@ function initializeGame() {
   // Add event listeners for game controls
   document.addEventListener('keydown', handleKeyDown);
   document.addEventListener('keyup', handleKeyUp);
+
+  // Create enemies
+  createEnemies();
 }
 
 function handleKeyDown(event) {
@@ -58,4 +61,46 @@ function shootLaser() {
   requestAnimationFrame(moveLaserUp);
 }
 
+function createEnemies() {
+  for (let i = 0; i < 5; i++) {
+    const enemy = document.createElement('div');
+    enemy.classList.add('enemy');
+    enemy.style.left = `${i * 50}px`;
+    enemy.style.top = '0px';
+    gameContainer.appendChild(enemy);
+  }
+}
+
+let enemyDirection = 1;
+let enemySpeed = 1;
+
+function moveEnemies() {
+  const enemies = document.querySelectorAll('.enemy');
+  let dropDown = false;
+
+  enemies.forEach((enemy) => {
+    const currentLeft = parseInt(enemy.style.left, 10);
+    enemy.style.left = `${currentLeft + enemyDirection * enemySpeed}px`;
+
+    if (currentLeft + enemyDirection * enemySpeed >= gameContainer.clientWidth - 40 || currentLeft + enemyDirection * enemySpeed <= 0) {
+      dropDown = true;
+    }
+  });
+
+  if (dropDown) {
+    enemies.forEach((enemy) => {
+      const currentTop = parseInt(enemy.style.top, 10);
+      enemy.style.top = `${currentTop + 40}px`;
+    });
+    enemyDirection *= -1;
+    enemySpeed += 0.5;
+  }
+}
+
+function gameLoop() {
+  moveEnemies();
+  requestAnimationFrame(gameLoop);
+}
+
 initializeGame();
+gameLoop();

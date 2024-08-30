@@ -39,3 +39,10 @@ body {
   background-color: red;
   bottom: 60px;
 }
+
+.enemy {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  background-color: #f00;
+}
