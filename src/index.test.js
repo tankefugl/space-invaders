@@ -1,4 +1,5 @@
 import { initializeGame, handleKeyDown, handleKeyUp, moveLaserCannon, shootLaser } from './index';
+import { describe, test, expect, jest } from '@jest/globals';
 
 describe('initializeGame', () => {
   test('should initialize game elements', () => {
