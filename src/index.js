@@ -1,6 +1,7 @@
 import './styles.css';
 
 const gameContainer = document.getElementById('game');
+let moveInterval;
 
 function initializeGame() {
   // Initialize game elements
@@ -17,12 +18,14 @@ function initializeGame() {
 }
 
 function handleKeyDown(event) {
+  if (moveInterval) return;
+
   switch (event.key) {
     case 'ArrowLeft':
-      moveLaserCannon(-10);
+      moveInterval = setInterval(() => moveLaserCannon(-10), 100);
       break;
     case 'ArrowRight':
-      moveLaserCannon(10);
+      moveInterval = setInterval(() => moveLaserCannon(10), 100);
       break;
     case ' ':
       shootLaser();
@@ -31,7 +34,10 @@ function handleKeyDown(event) {
 }
 
 function handleKeyUp(event) {
-  // Handle key up events if needed
+  if (moveInterval) {
+    clearInterval(moveInterval);
+    moveInterval = null;
+  }
 }
 
 function moveLaserCannon(distance) {
