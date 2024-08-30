@@ -18,7 +18,7 @@ function initializeGame() {
 }
 
 function handleKeyDown(event) {
-  if (moveInterval) return;
+  if (moveInterval && event.key !== ' ') return;
 
   switch (event.key) {
     case 'ArrowLeft':
@@ -42,11 +42,15 @@ function handleKeyUp(event) {
 
 function moveLaserCannon(distance) {
   const laserCannon = document.querySelector('.laser-cannon');
-  const currentLeft = parseInt(laserCannon.style.left || '50%', 10);
+  const currentLeft = parseInt(laserCannon.style.left || '50%', 10) + distance;
   const currentLeftPixels = (currentLeft / 100) * gameContainer.clientWidth;
   const newLeft = currentLeftPixels + distance;
-  if (newLeft >= 0 && newLeft <= gameContainer.clientWidth - laserCannon.clientWidth) {
-    laserCannon.style.left = `${newLeft}px`;
+  if (newLeft < 0) {
+    laserCannon.style.left = '0%';
+  } else if (newLeft > gameContainer.clientWidth - laserCannon.clientWidth) {
+    laserCannon.style.left = '100%';
+  } else {
+    laserCannon.style.left = `${(newLeft / gameContainer.clientWidth) * 100}%`;
   }
 }
 
