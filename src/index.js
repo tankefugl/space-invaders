@@ -54,6 +54,7 @@ function shootLaser() {
       laser.remove();
     } else {
       laser.style.bottom = `${currentBottom + 10}px`;
+      checkCollision(laser);
       requestAnimationFrame(moveLaserUp);
     }
   }
@@ -95,6 +96,25 @@ function moveEnemies() {
     enemyDirection *= -1;
     enemySpeed += 0.5;
   }
+}
+
+function checkCollision(laser) {
+  const laserRect = laser.getBoundingClientRect();
+  const enemies = document.querySelectorAll('.enemy');
+
+  enemies.forEach((enemy) => {
+    const enemyRect = enemy.getBoundingClientRect();
+
+    if (
+      laserRect.left < enemyRect.right &&
+      laserRect.right > enemyRect.left &&
+      laserRect.top < enemyRect.bottom &&
+      laserRect.bottom > enemyRect.top
+    ) {
+      laser.remove();
+      enemy.remove();
+    }
+  });
 }
 
 function gameLoop() {
