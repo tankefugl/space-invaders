@@ -1,0 +1,33 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: black;
+  color: white;
+}
+
+#game {
+  width: 800px;
+  height: 600px;
+  margin: 0 auto;
+  position: relative;
+  background-color: #000;
+  border: 1px solid #fff;
+}
+
+.laser-cannon {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #0f0;
+}
+
+.alien {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  background-color: #f00;
+}
