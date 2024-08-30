@@ -2,6 +2,7 @@ import './styles.css';
 
 const gameContainer = document.getElementById('game');
 let moveInterval;
+let victoryAchieved = false;
 
 function initializeGame() {
   // Initialize game elements
@@ -127,13 +128,31 @@ function checkCollision(laser) {
     ) {
       laser.remove();
       enemy.remove();
+      checkVictory();
     }
   });
 }
 
+function checkVictory() {
+  const enemies = document.querySelectorAll('.enemy');
+  if (enemies.length === 0) {
+    victoryAchieved = true;
+    displayVictoryMessage();
+  }
+}
+
+function displayVictoryMessage() {
+  const victoryMessage = document.createElement('div');
+  victoryMessage.classList.add('victory-message');
+  victoryMessage.innerText = 'VICTORY!';
+  gameContainer.appendChild(victoryMessage);
+}
+
 function gameLoop() {
-  moveEnemies();
-  requestAnimationFrame(gameLoop);
+  if (!victoryAchieved) {
+    moveEnemies();
+    requestAnimationFrame(gameLoop);
+  }
 }
 
 initializeGame();
