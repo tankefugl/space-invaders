@@ -31,3 +31,11 @@ body {
   position: absolute;
   background-color: #f00;
 }
+
+.laser {
+  width: 5px;
+  height: 20px;
+  position: absolute;
+  background-color: red;
+  bottom: 60px;
+}

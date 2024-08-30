@@ -38,7 +38,24 @@ function moveLaserCannon(distance) {
 }
 
 function shootLaser() {
-  // Implement laser shooting logic
+  const laser = document.createElement('div');
+  laser.classList.add('laser');
+  const laserCannon = document.querySelector('.laser-cannon');
+  laser.style.left = laserCannon.style.left;
+  laser.style.bottom = '60px';
+  gameContainer.appendChild(laser);
+
+  function moveLaserUp() {
+    const currentBottom = parseInt(laser.style.bottom, 10);
+    if (currentBottom >= gameContainer.clientHeight) {
+      laser.remove();
+    } else {
+      laser.style.bottom = `${currentBottom + 10}px`;
+      requestAnimationFrame(moveLaserUp);
+    }
+  }
+
+  requestAnimationFrame(moveLaserUp);
 }
 
 initializeGame();
