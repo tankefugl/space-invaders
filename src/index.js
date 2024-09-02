@@ -3,6 +3,7 @@ import './styles.css';
 const gameContainer = document.getElementById('game');
 let moveInterval;
 let victoryAchieved = false;
+let gameOver = false;
 
 function initializeGame() {
   // Initialize game elements
@@ -148,9 +149,52 @@ function displayVictoryMessage() {
   gameContainer.appendChild(victoryMessage);
 }
 
+function checkGameOver() {
+  const player = document.querySelector('.laser-cannon');
+  const playerRect = player.getBoundingClientRect();
+  const enemies = document.querySelectorAll('.enemy');
+
+  enemies.forEach((enemy) => {
+    const enemyRect = enemy.getBoundingClientRect();
+
+    if (
+      playerRect.left < enemyRect.right &&
+      playerRect.right > enemyRect.left &&
+      playerRect.top < enemyRect.bottom &&
+      playerRect.bottom > enemyRect.top
+    ) {
+      gameOver = true;
+      displayGameOverMessage();
+      restartGame();
+    }
+  });
+}
+
+function displayGameOverMessage() {
+  const gameOverMessage = document.createElement('div');
+  gameOverMessage.classList.add('game-over-message');
+  gameOverMessage.innerText = 'GAME OVER';
+  gameContainer.appendChild(gameOverMessage);
+}
+
+function restartGame() {
+  const restartButton = document.createElement('button');
+  restartButton.classList.add('restart-button');
+  restartButton.innerText = 'Restart';
+  restartButton.addEventListener('click', () => {
+    gameContainer.innerHTML = '';
+    initializeGame();
+    gameOver = false;
+    victoryAchieved = false;
+    gameLoop();
+  });
+  gameContainer.appendChild(restartButton);
+}
+
 function gameLoop() {
-  if (!victoryAchieved) {
+  if (!victoryAchieved && !gameOver) {
     moveEnemies();
+    checkGameOver();
     requestAnimationFrame(gameLoop);
   }
 }
